@@ -1,0 +1,65 @@
+version: "3"
+services:
+  ldap:
+    image: dcm4che/slapd-dcm4chee:2.4.57-24.0
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"    
+    ports:
+      - "389:389"
+      - "636:636"
+    env_file: docker-compose.env
+    volumes:
+      - /var/local/dcm4chee-arc/ldap:/var/lib/openldap/openldap-data
+      - /var/local/dcm4chee-arc/slapd.d:/etc/openldap/slapd.d
+  db:
+    image: mysql:5.7
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"    
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /var/local/dcm4chee-arc/mysql:/var/lib/mysql
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: complexpass
+      MYSQL_DATABASE: mmsdb
+      MYSQL_USER: mms
+      MYSQL_PASSWORD: mms      
+  arc:
+    build: .
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"    
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+      - "9990:9990"
+      - "9993:9993"
+      - "8787:8787"
+      - "11112:11112"
+      - "2762:2762"
+      - "2575:2575"
+      - "12575:12575"
+    env_file: docker-compose.env
+    environment:
+      WILDFLY_ADMIN_USER: admin
+      WILDFLY_ADMIN_PASSWORD: admin
+      WILDFLY_CHOWN: /opt/wildfly/standalone /storage
+      WILDFLY_WAIT_FOR: ldap:389 db:3306
+      JAVA_OPTS: -Xms64m -Xmx512m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true -agentlib:jdwp=transport=dt_socket,address=*:8787,server=y,suspend=n
+    depends_on:
+      - ldap
+      - db
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /var/local/dcm4chee-arc/wildfly:/opt/wildfly/standalone
+      - /var/local/dcm4chee-arc/storage:/storage
+
