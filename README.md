@@ -44,38 +44,30 @@ if using TLS (`LDAP_URL=ldaps://<host>:<port>`) (optional, default is `true`).
 
 Device name to lookup in LDAP for Audit Logging configuration (optional, default is `dcm4chee-arc`).
 
-#### `POSTGRES_HOST`
+#### `MYSQL_HOST`
 
-Hostname/IP-Address of the PostgreSQL host. Required for using external PostgreSQL database to persist data.
+Hostname/IP-Address of the MySQL host. Required for using external MySQL database to persist data.
 If absent, embedded Java-based relational database H2 will be used to persist data (optional, default is `db`).
 
-#### `POSTGRES_PORT`
+#### `MYSQL_PORT`
              
-Port of the PostgreSQL host (optional, default is `5432`)
+Port of the MySQL host (optional, default is `3306`)
 
-#### `POSTGRES_DB`
+#### `MYSQL_DB`
                  
 Name of the database to use (optional, default is `pacsdb`).
 
-#### `POSTGRES_USER`
+#### `MYSQL_USER`
              
-User to authenticate to PostgreSQL (optional, default is `pacs`).
+User to authenticate to MySQL (optional, default is `pacs`).
 
-#### `POSTGRES_USER_FILE`
-                  
-User to authenticate to PostgreSQL via file input (alternative to `POSTGRES_USER`).
+#### `MYSQL_PASSWORD`
 
-#### `POSTGRES_PASSWORD`
+User's password to use to authenticate to MySQL (optional, default is `pacs`).
 
-User's password to use to authenticate to PostgreSQL (optional, default is `pacs`).
-
-#### `POSTGRES_PASSWORD_FILE`
+#### `MYSQL_JDBC_PARAMS`
                       
-User's password to use to authenticate to PostgreSQL via file input (alternative to `DB_PASSWORD`).
-
-#### `POSTGRES_JDBC_PARAMS`
-                      
-Optional JDBC [Connection Parameters](https://jdbc.postgresql.org/documentation/head/connect.html) (e.g.: `connectTimeout=30`).
+Optional JDBC [Connection Parameters](https://docs.oracle.com/javase/tutorial/jdbc/basics/connecting.html) (e.g.: `serverTimezone=UTC`).
 
 #### `JAVA_OPTS`
 

@@ -23,8 +23,8 @@ file_env() {
 }
 
 file_env 'LDAP_ROOTPASS' 'secret'
-file_env 'MYSQL_USER' 'mms'
-file_env 'MYSQL_PASSWORD' 'mms'
+file_env 'MYSQL_USER' 'pacs'
+file_env 'MYSQL_PASSWORD' 'pacs'
 file_env 'KEYSTORE_PASSWORD' 'secret'
 file_env 'KEY_PASSWORD' "${KEYSTORE_PASSWORD}"
 file_env 'TRUSTSTORE_PASSWORD' 'changeit'
@@ -32,7 +32,7 @@ file_env 'EXTRA_CACERTS_PASSWORD' 'secret'
 file_env 'WILDFLY_ADMIN_USER'
 file_env 'WILDFLY_ADMIN_PASSWORD'
 
-# Append '?' in the beginning of the string if POSTGRES_JDBC_PARAMS value isn't empty
+# Append '?' in the beginning of the string if MYSQL_JDBC_PARAMS value isn't empty
 MYSQL_JDBC_PARAMS=$(echo ${MYSQL_JDBC_PARAMS} | sed '/^$/! s/^/?/')
 
 if [ $LOGSTASH_HOST ]; then
